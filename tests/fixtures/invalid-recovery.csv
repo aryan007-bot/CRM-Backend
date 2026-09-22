@@ -1,0 +1,4 @@
+Customer Name,Phone Number,Account Number,Outstanding Amount,Due Date,Creditor Name,Email
+Bad Phone Debtor,12345,ACC-2001,5000,2026-10-15,HDFC Bank,bad1@example.com
+Bad Amount Debtor,9876543211,ACC-2002,NOT_A_NUMBER,2026-10-15,HDFC Bank,bad2@example.com
+,9876543212,ACC-2003,7500,2026-10-15,HDFC Bank,bad3@example.com

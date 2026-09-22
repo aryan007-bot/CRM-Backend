@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment — never commit real values.
+.env
+.env.*
+!.env.example
+
+# Local databases / dumps
+*.db
+*.sqlite3
+*.dump

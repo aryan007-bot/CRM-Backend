@@ -1,0 +1,17 @@
+# Runtime dependencies for the AI Recovery CRM API.
+# Versions are pinned to what the test suite is verified against.
+fastapi==0.141.1
+uvicorn==0.53.0
+sqlalchemy==2.0.54
+alembic==1.20.0
+psycopg[binary]==3.3.6
+pydantic==2.13.5
+pydantic-settings==2.15.0
+python-dotenv==1.2.3
+python-multipart==0.0.32
+PyJWT==2.14.0
+bcrypt==5.0.0
+email-validator==2.3.0
+# Spreadsheet parsing for the import engine (CSV + XLSX).
+pandas==3.0.6
+openpyxl==3.1.5

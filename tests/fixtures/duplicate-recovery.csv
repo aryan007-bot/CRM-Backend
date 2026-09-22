@@ -1,0 +1,3 @@
+Customer Name,Phone Number,Account Number,Outstanding Amount,Due Date,Creditor Name,Email
+Rohit Verma,9876543213,ACC-3001,10000,2026-10-15,Axis Bank,rohit@example.com
+Same Account Debtor,9876543214,ACC-3001,15000,2026-10-15,Axis Bank,dup@example.com

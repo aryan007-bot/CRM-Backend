@@ -1,0 +1,4 @@
+Customer Name,Phone Number,Account Number,Outstanding Amount,Due Date,Creditor Name,Email
+Rajesh Sharma,+91 98765 43210,ACC-1001,"₹45,000",2026-10-15,HDFC Bank,rajesh@example.com
+Priya Patel,9823456789,ACC-1002,25000.50,15/11/2026,SBI Cards,priya@example.com
+Amit Kumar,09123456780,ACC-1003,12500,2026-12-01,ICICI Bank,amit@example.com
