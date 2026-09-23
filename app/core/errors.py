@@ -100,6 +100,36 @@ class QueueUnavailableException(AppException):
         super().__init__(code=code, message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
 
 
+class TelephonyException(AppException):
+    def __init__(self, message: str = "Telephony error", code: str = "TELEPHONY_ERROR", status_code: int = status.HTTP_503_SERVICE_UNAVAILABLE, details: Any = None):
+        super().__init__(code=code, message=message, status_code=status_code, details=details)
+
+
+class TelephonyNotConfiguredException(TelephonyException):
+    def __init__(self, message: str = "Outbound telephony is not configured", details: Any = None):
+        super().__init__(code="TELEPHONY_NOT_CONFIGURED", message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
+class GatewayNotRegisteredException(TelephonyException):
+    def __init__(self, message: str = "GSM/SIP gateway is not registered", details: Any = None):
+        super().__init__(code="GSM_GATEWAY_NOT_REGISTERED", message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
+class ActiveCallExistsException(AppException):
+    def __init__(self, message: str = "Customer already has an active call", details: Any = None):
+        super().__init__(code="ACTIVE_CALL_EXISTS", message=message, status_code=status.HTTP_409_CONFLICT, details=details)
+
+
+class NoTelephonyCapacityException(TelephonyException):
+    def __init__(self, message: str = "No telephony channels available", details: Any = None):
+        super().__init__(code="NO_TELEPHONY_CAPACITY", message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
+class TelephonyUnavailableException(TelephonyException):
+    def __init__(self, message: str = "Asterisk PBX / Telephony server is unavailable", details: Any = None):
+        super().__init__(code="ASTERISK_UNAVAILABLE", message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
 def register_error_handlers(app: FastAPI) -> None:
     """Register uniform error handlers formatting all errors into {'error': {'code': ..., 'message': ...}}"""
 

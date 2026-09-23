@@ -45,6 +45,7 @@ class CallCreate(BaseModel):
     agent_id: Optional[uuid.UUID] = None
     recipient_phone: str
     caller_phone: Optional[str] = "+919876543210"
+    mode: Optional[str] = None  # LIVE, SIMULATION
 
 
 class CallDispositionUpdate(BaseModel):
@@ -72,6 +73,13 @@ class CallOut(BaseModel):
     recipient_phone: str
     direction: str
     status: str
+    mode: str = "LIVE"
+    telephony_status: str = "NOT_STARTED"
+    ai_state: str = "IDLE"
+    media_state: str = "NO_MEDIA"
+    asterisk_channel_id: Optional[str] = None
+    failure_code: Optional[str] = None
+    failure_reason: Optional[str] = None
     disposition: Optional[str] = None
     duration_seconds: int
     customer_name: Optional[str] = None

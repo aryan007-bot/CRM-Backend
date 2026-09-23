@@ -64,6 +64,21 @@ class Call(Base, IDMixin, OrganizationMixin, TimestampMixin):
     status: Mapped[str] = mapped_column(String(50), default="created", nullable=False)
     # created, connecting, ringing, connected, ai_talking, customer_talking, on_hold, transferring, human_connected, ending, ended, failed
 
+    # Authoritative Telephony, AI & Media States
+    mode: Mapped[str] = mapped_column(String(20), default="LIVE", nullable=False)  # LIVE, SIMULATION
+    telephony_status: Mapped[str] = mapped_column(String(50), default="NOT_STARTED", nullable=False)
+    # NOT_STARTED, ORIGINATING, DIALING, RINGING, CONNECTED, FAILED, BUSY, NO_ANSWER, REJECTED, ENDED
+    ai_state: Mapped[str] = mapped_column(String(50), default="IDLE", nullable=False)
+    # IDLE, WAITING_FOR_CUSTOMER, LISTENING, THINKING, SPEAKING, INTERRUPTED, ENDED
+    media_state: Mapped[str] = mapped_column(String(50), default="NO_MEDIA", nullable=False)
+    # NO_MEDIA, CONNECTING, CONNECTED, FAILED
+
+    asterisk_channel_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True, index=True)
+    asterisk_unique_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    telephony_provider: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    failure_code: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    failure_reason: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+
     disposition: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     # COMPLETED, CALLBACK, TRANSFERRED, FAILED, WRONG_NUMBER, NO_ANSWER, BUSY
 
