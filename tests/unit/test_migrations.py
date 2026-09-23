@@ -23,6 +23,7 @@ INITIAL_REVISION = "d9ff7e3d8d6c"
 SECOND_REVISION = "b41c9a7f2e10"
 THIRD_REVISION = "c52e8b1a4f32"
 FOURTH_REVISION = "d63f9a2b5e41"
+FIFTH_REVISION = "e74a0b3c6f52"
 
 TABLE_RE = re.compile(r"CREATE TABLE (\w+) \((.*?)\n\);", re.DOTALL)
 ALTER_RE = re.compile(r"ALTER TABLE (\w+) ADD COLUMN (\w+)", re.IGNORECASE)
@@ -49,10 +50,10 @@ def _postgres_ddl() -> str:
 def test_migration_history_has_a_single_head():
     script = ScriptDirectory.from_config(_alembic_config())
     heads = script.get_heads()
-    assert heads == [FOURTH_REVISION], heads
+    assert heads == [FIFTH_REVISION], heads
 
     revisions = [revision.revision for revision in script.walk_revisions()]
-    assert revisions == [FOURTH_REVISION, THIRD_REVISION, SECOND_REVISION, INITIAL_REVISION]
+    assert revisions == [FIFTH_REVISION, FOURTH_REVISION, THIRD_REVISION, SECOND_REVISION, INITIAL_REVISION]
 
 
 def test_migration_chain_compiles_to_postgres_ddl():
@@ -63,11 +64,13 @@ def test_migration_chain_compiles_to_postgres_ddl():
     assert f"SET version_num='{SECOND_REVISION}'" in sql
     assert f"SET version_num='{THIRD_REVISION}'" in sql
     assert f"SET version_num='{FOURTH_REVISION}'" in sql
+    assert f"SET version_num='{FIFTH_REVISION}'" in sql
     assert (
         sql.index(INITIAL_REVISION)
         < sql.index(SECOND_REVISION)
         < sql.index(THIRD_REVISION)
         < sql.index(FOURTH_REVISION)
+        < sql.index(FIFTH_REVISION)
     )
 
     # PostgreSQL-native types, not SQLite fallbacks.

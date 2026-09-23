@@ -15,5 +15,10 @@ venv/
 
 # Local databases / dumps
 *.db
+*.sqlite
 *.sqlite3
 *.dump
+
+# Generated test artifacts
+storage/exports/*.csv
+storage/voice_profiles/*.wav

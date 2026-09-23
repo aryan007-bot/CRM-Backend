@@ -55,6 +55,51 @@ class ValidationException(AppException):
         super().__init__(code=code, message=message, status_code=status.HTTP_400_BAD_REQUEST, details=details)
 
 
+class JobNotRetryableException(AppException):
+    def __init__(self, message: str = "Job is not retryable", code: str = "JOB_NOT_RETRYABLE", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_400_BAD_REQUEST, details=details)
+
+
+class InvalidStateTransitionException(AppException):
+    def __init__(self, message: str = "Invalid state transition", code: str = "INVALID_STATE_TRANSITION", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_409_CONFLICT, details=details)
+
+
+class FeatureNotConfiguredException(AppException):
+    def __init__(self, message: str = "Feature is not configured", code: str = "FEATURE_NOT_CONFIGURED", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_400_BAD_REQUEST, details=details)
+
+
+class EnvironmentProtectedException(AppException):
+    def __init__(self, message: str = "Environment is protected against this operation", code: str = "ENVIRONMENT_PROTECTED", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_403_FORBIDDEN, details=details)
+
+
+class ProviderUnavailableException(AppException):
+    def __init__(self, message: str = "AI Provider is unavailable", code: str = "PROVIDER_UNAVAILABLE", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
+class QuotaExceededException(AppException):
+    def __init__(self, message: str = "AI Provider quota exceeded", code: str = "QUOTA_EXCEEDED", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_429_TOO_MANY_REQUESTS, details=details)
+
+
+class ConfigurationInvalidException(AppException):
+    def __init__(self, message: str = "Configuration item is invalid", code: str = "CONFIGURATION_INVALID", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_400_BAD_REQUEST, details=details)
+
+
+class WorkerUnavailableException(AppException):
+    def __init__(self, message: str = "Worker is unavailable", code: str = "WORKER_UNAVAILABLE", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
+class QueueUnavailableException(AppException):
+    def __init__(self, message: str = "Queue is unavailable", code: str = "QUEUE_UNAVAILABLE", details: Any = None):
+        super().__init__(code=code, message=message, status_code=status.HTTP_503_SERVICE_UNAVAILABLE, details=details)
+
+
 def register_error_handlers(app: FastAPI) -> None:
     """Register uniform error handlers formatting all errors into {'error': {'code': ..., 'message': ...}}"""
 

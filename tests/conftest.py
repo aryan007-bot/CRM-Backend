@@ -134,6 +134,11 @@ def org_admin_b(db: Session, test_org_b: Organization) -> User:
     return create_user_with_role(db, test_org_b.id, "admin_b@beta.com", "Password123!", "ORG_ADMIN")
 
 
+@pytest.fixture
+def super_admin(db: Session, test_org_a: Organization) -> User:
+    return create_user_with_role(db, test_org_a.id, "super_admin@recovery.com", "Password123!", "SUPER_ADMIN")
+
+
 def auth_headers(user: User) -> dict:
     token = create_access_token(
         subject=user.id,

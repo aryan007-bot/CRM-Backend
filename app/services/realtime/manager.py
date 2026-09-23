@@ -38,16 +38,16 @@ class RealtimeManager:
 
     async def broadcast_event(
         self,
-        organization_id: uuid.UUID,
+        organization_id: Optional[uuid.UUID] = None,
         call_id: Optional[uuid.UUID] = None,
         event_type: str = "",
         data: Optional[Dict[str, Any]] = None,
         sequence: Optional[int] = None,
     ) -> dict:
-        """Broadcasts a typed, ordered event to all active clients in the organization."""
+        """Broadcasts a typed, ordered event to active clients (or all clients if organization_id is None)."""
         payload_data = data or {}
         if sequence is None:
-            seq_key = call_id if call_id is not None else organization_id
+            seq_key = call_id if call_id is not None else (organization_id if organization_id is not None else uuid.UUID("00000000-0000-0000-0000-000000000000"))
             sequence = await self.get_next_sequence(seq_key)
 
         envelope = {
@@ -58,14 +58,24 @@ class RealtimeManager:
             "data": payload_data,
         }
 
-        connections = self._org_connections.get(organization_id, set()).copy()
-        for ws in connections:
-            try:
-                await ws.send_json(envelope)
-            except Exception:
-                self.disconnect(ws, organization_id)
+        if organization_id is None:
+            # Broadcast to all connected clients
+            all_conns = [ws for s in self._org_connections.values() for ws in s]
+            for ws in all_conns:
+                try:
+                    await ws.send_json(envelope)
+                except Exception:
+                    pass
+        else:
+            connections = self._org_connections.get(organization_id, set()).copy()
+            for ws in connections:
+                try:
+                    await ws.send_json(envelope)
+                except Exception:
+                    self.disconnect(ws, organization_id)
 
         return envelope
+
 
 
 # Global singleton realtime manager instance

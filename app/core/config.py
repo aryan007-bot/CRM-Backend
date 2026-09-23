@@ -80,6 +80,18 @@ class Settings(BaseSettings):
     DEFAULT_PAGE_SIZE: int = 25
     MAX_PAGE_SIZE: int = 100
 
+    # Phase 4 Control Plane & Observability Settings
+    MONITORING_ENABLED: bool = True
+    HEALTH_CHECK_INTERVAL_SECONDS: int = 60
+    PROVIDER_HEALTH_INTERVAL_SECONDS: int = 120
+    METRICS_RETENTION_DAYS: int = 30
+    EVENT_RETENTION_DAYS: int = 90
+    ALERT_EVALUATION_INTERVAL_SECONDS: int = 30
+    HEARTBEAT_TIMEOUT_SECONDS: int = 120
+    MAX_ADMIN_ACTION_RATE: int = 60
+    DEPLOYMENT_PROVIDER: str = "mock"
+    SECRET_PROVIDER: str = "local"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -87,10 +99,21 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def _normalize_db_url(cls, value: object) -> object:
+        if isinstance(value, str):
+            if value.startswith("postgresql://") and not value.startswith("postgresql+"):
+                return value.replace("postgresql://", "postgresql+psycopg://", 1)
+            if value.startswith("postgres://"):
+                return value.replace("postgres://", "postgresql+psycopg://", 1)
+        return value
+
     @field_validator("ALLOWED_ORIGINS", "ALLOWED_EXTENSIONS", mode="before")
     @classmethod
     def _split_list_settings(cls, value: object) -> object:
         return _parse_string_list(value)
+
 
     @property
     def is_production(self) -> bool:
